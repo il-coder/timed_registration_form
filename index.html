@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FORM</title>
+	<style>
+		body {
+			background-color: #FFFFED;
+		}
+	
+		#f01 {
+			width: 100%;
+			height: 100%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		#f01 h1{
+			text-align: center;
+			color: green;
+            margin: 10px;
+		}
+		
+        #f01 table {
+            border: solid 2px yellow;
+            background-color: lightblue;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+		#f01 td {
+			padding: 10px;
+			font-size: 20px;
+		}
+		
+		#f01 td:nth-child(odd) {
+			width: 50%;
+		}
+
+		#f01 td:nth-child(even) {
+			width: 50%;
+		}
+
+		#f01 input, select {
+			font-size: 20px;
+		}
+
+		#f01 input[type="radio"],input[type="checkbox"] {
+			width: 20px;
+			height: 20px;
+		}
+
+		#f01 input[type="submit"],input[type="reset"] {
+			background-color: orange;
+			color: white;
+			padding:10px;
+		}
+    </style>
+</head>
+
+<body>
+<div id='f01'>
+<form>
+<h1>REGISTRATION FORM</h1>
+<table>
+<tr>
+    <td style="font-weight: 600;" id="myClock"></td>    
+    <td style="font-weight: 600;" id="expTime"></td>
+</tr>
+<tr>
+<td><label for='fname'>First Name</label></td>
+<td><input type="text" id='fname' name='fname'/></td>
+</tr>
+<tr>
+<td><label for='lname'>Last Name</label></td>
+<td><input type="text" id='lname' name='lname'/></td>
+</tr>
+<tr>
+<td><label for='pwd'>Password</label></td>
+<td><input type="password" id='pwd' name='pwd'/><br>Show Password <input type="checkbox" onclick="javascript:showHide();"/></td>
+</tr>
+<tr>
+<td><label for='cnfpwd'>Confirm Password</label></td>
+<td><input type="text" id='cnfpwd' name='cnfpwd'/></td>
+</tr>
+<tr>
+<td><label for='sl'>Select Langauage</label></td>
+<td>
+<select id='sl' name='sl'>
+<option>Select a language</option>
+<option value="Java">JAVA</option>
+<option value="C++">C++</option>
+<option value="HTML">HTML</option>
+<option value="C">C</option>
+</select>
+</td>
+</tr>
+<tr>
+<td><label>Select Gender</label></td>
+<td>
+<label for='gender1'>Male</label><input type='radio' name='gender' id='gender1' value='male'/>&nbsp;&nbsp;&nbsp;
+<label for='gender2'>Female</label><input type='radio' name='gender' id='gender2' value='female'/>
+</td>
+</tr>
+<tr>
+<td><label>Select Preference</label></td>
+<td>
+<label for='v1'>Bike</label><input type='checkbox' id='v1' name='vehicle1' value='bike'/>&nbsp;&nbsp;&nbsp;
+<label for='v2'>Car</label><input type='checkbox' id='v2' name='vehicle2' value='car'/>&nbsp;&nbsp;&nbsp;
+<label for='v3'>Bus</label><input type='checkbox' id='v3' name='vehicle3' value='bus'/>
+</td>
+</tr>
+<tr>
+	<td><label for='sgst'>Suggestions : </label></td>
+	<td><textarea name='suggestions' id='sgst' style='width: 300px; height: 50px; resize: none;'></textarea></td>
+</tr>
+<tr>
+	<td><label for='dob'>Select your D.O.B. :</label></td>
+	<td><input type='date' id='dob' name='dob'/></td>
+</tr>
+
+<tr><td></td></tr> <!-- empty row to create space -->
+<tr>
+<td style="text-align:center;"><input id='register' type="Submit" value="Submit" name='submit'/></td>
+<td style="text-align:center;"><input id='resetform' type="reset" value="Reset" name='reset'/>
+</tr>
+</table>
+</form>
+</div>
+
+<script type="text/javascript">
+
+//Expiry Time Code Starts here
+    const expTime=new Date();
+    var eh= expTime.getHours();
+    var em= expTime.getMinutes();
+    var es= expTime.getSeconds();
+    var session1 = "AM";
+
+    em = em + 1;
+    if(em>=60)
+    {
+        eh += 1;
+        em = em - 60;
+    }
+    if(eh==0)
+    {
+        eh=12;
+    }
+    if(eh>12)
+    {
+        session1="PM";
+        eh = eh - 12;
+    }
+   
+    if(eh<10)
+    {
+        eh = '0'+eh;
+    }
+    if(em<10)
+    {
+        em ='0'+em;
+    }
+    if(es<10)
+    {
+        es ='0'+es;
+    }
+    var time2 = eh + ":"+ em + ":"+es+" "+session1; 
+    document.getElementById("expTime").innerHTML = "Expiry Time : "+time2;
+
+//Expiry Time Code ends here
+
+    function showTime()
+    {
+        var date = new Date();
+        var h = date.getHours();
+        var m = date.getMinutes();
+        var s = date.getSeconds();
+        var session = "AM";
+        if(h==0)
+        {
+            h=12;
+        }
+        if(h>12)
+        {
+            session="PM";
+            h=h-12;
+        }
+        
+
+        if(h<10)
+        {
+            h = '0'+h;
+        }
+        if(m<10)
+        {
+            m ='0'+m;
+        }
+        if(s<10)
+        {
+            s= '0'+s;
+        }
+
+        var time = h + ":"+ m + ":"+ s+" "+session;
+
+        if(time==time2)
+        {
+            clearInterval(rep);
+            document.getElementById("f01").innerHTML = "<h1>Your registration form has been expired.<br>Kindly refresh to re-fill.</h1>";
+            return;
+        }
+        document.getElementById("myClock").innerHTML = "Current Time : " +time;
+    }
+    showTime();
+    var rep = setInterval(showTime,1000);
+
+    function showHide()
+    {
+        var pwd = document.getElementById("pwd");
+        if(pwd.type=="password")
+        {
+            pwd.type = "text";
+        }
+        else
+        {
+            pwd.type = "password";
+        }
+    }
+</script>
+
+</body>
+
+</html>
